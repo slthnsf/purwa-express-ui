@@ -5,7 +5,7 @@ import NavbarComp from "./components/navbarComp";
 import NavbarAdminComp from "./components/admin/navbarAdminComp";
 import RegistCourComp from "./components/admin/registCourComp";
 import NavbarCourComp from "./components/courier/navbarCourComp";
-// import KirimComp from "./components/admin/kirimComp";
+import KirimComp from "./components/admin/kirimComp";
 import LandingPage from "./pages/landingPage";
 import CourierPage from "./pages/courierPage";
 import RegisterPage from "./pages/registerPage";
@@ -36,8 +36,10 @@ class App extends React.Component {
       const headers = {
         headers: {
           Authorization: `Bearer ${token}`,
-        }};
-      axios.post(URL_API + `/users/keep`, {}, headers)
+        },
+      };
+      axios
+        .post(URL_API + `/users/keep`, {}, headers)
         .then((res) => {
           this.props.keepLogin(res.data);
         })
@@ -56,6 +58,7 @@ class App extends React.Component {
             <Switch>
               <Route path="/" component={AdminPage} exact />
               <Route path="/courier" component={RegistCourComp} />
+              <Route path="/kirim" component={KirimComp} />
             </Switch>
             <FooterComp />
           </>

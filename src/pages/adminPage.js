@@ -12,12 +12,9 @@ import {
   Input,
   FormText,
 } from "reactstrap";
-import { FaHome } from "react-icons/fa";
-import { FaHeart } from "react-icons/fa";
-import { FaHistory } from "react-icons/fa";
-import { GiCargoShip } from "react-icons/gi";
 import dropship from "../assets/img/dropship.png";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
 
 class AdminPage extends React.Component {
   constructor(props) {
@@ -38,7 +35,7 @@ class AdminPage extends React.Component {
         <Row>
           <Col md="12" style={{ textAlign: "center", paddingTop: "10vh" }}>
             <img src={dropship} width="40%" />
-            <h3>Welcome Back Admin!</h3>
+            <h3>Welcome Back {this.props.nama}!</h3>
             <Container>
               <Row>
                 <Col md="3"></Col>
@@ -71,4 +68,10 @@ class AdminPage extends React.Component {
   }
 }
 
-export default AdminPage;
+const mapStateToProps = ({ usersReducer }) => {
+  return {
+    nama: usersReducer.nama,
+  };
+};
+
+export default connect(mapStateToProps)(AdminPage);
