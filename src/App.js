@@ -15,8 +15,9 @@ import FooterComp from "./components/footerComp";
 import "./assets/css/style.css";
 import { URL_API } from "./helper";
 import axios from "axios";
-import { keepLogin } from "./actions";
+import { keepLogin, getDataPacketAction } from "./actions";
 import { connect } from "react-redux";
+import HistoryComp from "./components/admin/historyComp";
 
 class App extends React.Component {
   constructor(props) {
@@ -28,6 +29,7 @@ class App extends React.Component {
 
   componentDidMount() {
     this.reLogin();
+    this.props.getDataPacketAction()
   }
 
   reLogin = () => {
@@ -59,6 +61,7 @@ class App extends React.Component {
               <Route path="/" component={AdminPage} exact />
               <Route path="/courier" component={RegistCourComp} />
               <Route path="/kirim" component={KirimComp} />
+              <Route path="/history" component={HistoryComp} />
             </Switch>
             <FooterComp />
           </>
@@ -92,4 +95,4 @@ const mapStateToProps = ({ usersReducer }) => {
   };
 };
 
-export default connect(mapStateToProps, { keepLogin })(App);
+export default connect(mapStateToProps, { keepLogin, getDataPacketAction })(App);
