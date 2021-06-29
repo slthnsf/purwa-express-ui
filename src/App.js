@@ -5,6 +5,8 @@ import NavbarComp from "./components/navbarComp";
 import NavbarAdminComp from "./components/admin/navbarAdminComp";
 import RegistCourComp from "./components/admin/registCourComp";
 import NavbarCourComp from "./components/courier/navbarCourComp";
+import StatusComp from "./components/users/statusComp";
+import SendComp from "./components/courier/sendComp";
 import KirimComp from "./components/admin/kirimComp";
 import LandingPage from "./pages/landingPage";
 import CourierPage from "./pages/courierPage";
@@ -17,7 +19,6 @@ import { URL_API } from "./helper";
 import axios from "axios";
 import { keepLogin, getDataPacketAction } from "./actions";
 import { connect } from "react-redux";
-import HistoryComp from "./components/admin/historyComp";
 
 class App extends React.Component {
   constructor(props) {
@@ -29,7 +30,7 @@ class App extends React.Component {
 
   componentDidMount() {
     this.reLogin();
-    this.props.getDataPacketAction()
+    this.props.getDataPacketAction();
   }
 
   reLogin = () => {
@@ -61,7 +62,6 @@ class App extends React.Component {
               <Route path="/" component={AdminPage} exact />
               <Route path="/courier" component={RegistCourComp} />
               <Route path="/kirim" component={KirimComp} />
-              <Route path="/history" component={HistoryComp} />
             </Switch>
             <FooterComp />
           </>
@@ -69,7 +69,17 @@ class App extends React.Component {
           <>
             <NavbarCourComp />
             <Switch>
-              <Route path="/" component={CourierPage} />
+              <Route path="/" component={CourierPage} exact />
+              <Route path="/input" component={SendComp} />
+            </Switch>
+            <FooterComp />
+          </>
+        ) : this.props.idrole === 3 ? (
+          <>
+            <NavbarComp />
+            <Switch>
+              <Route path="/" component={LandingPage} exact />
+              <Route path="/status" component={StatusComp} exact />
             </Switch>
             <FooterComp />
           </>
@@ -95,4 +105,6 @@ const mapStateToProps = ({ usersReducer }) => {
   };
 };
 
-export default connect(mapStateToProps, { keepLogin, getDataPacketAction })(App);
+export default connect(mapStateToProps, { keepLogin, getDataPacketAction })(
+  App
+);

@@ -33,6 +33,7 @@ class KirimComp extends React.Component {
       dataUser: [],
       dataReceipt: [],
       dataBarang: [],
+      dataInput: [],
       imgback: "",
       message: "",
       color: "success",
@@ -64,6 +65,7 @@ class KirimComp extends React.Component {
     this.getKota();
     this.getUser();
     this.getDataBarang();
+    this.getDataInput();
   }
 
   getDataBarang = () => {
@@ -72,6 +74,24 @@ class KirimComp extends React.Component {
       .then((res) => {
         this.setState({ dataBarang: res.data });
         if (this.state.dataBarang.length / 2 === 0) {
+          {
+            this.setState({ imgback: testiback1 });
+          }
+        } else {
+          this.setState({ imgback: testiback });
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  getDataInput = () => {
+    axios
+      .get(`http://localhost:2000/admin/get-input`)
+      .then((res) => {
+        this.setState({ dataInput: res.data });
+        if (this.state.dataInput.length / 2 === 0) {
           {
             this.setState({ imgback: testiback1 });
           }
@@ -228,6 +248,7 @@ class KirimComp extends React.Component {
     // console.log("data cost", this.state.dataCost);
     // console.log("data price", this.getPrice()[1]);
     // console.log("user", this.handleUser());
+    console.log("data Input", this.state.dataInput);
     console.log(
       "resi",
       this.generateResi().slice(0, 11) + `${Math.floor(Math.random() * 9)}`
@@ -402,7 +423,7 @@ class KirimComp extends React.Component {
               Menunggu Courier<hr style={{ border: "3px solid black" }}></hr>
             </h5>
             <Carousel responsive={this.responsive}>
-              {this.state.dataBarang.map((item, idx) => {
+              {this.state.dataInput.map((item, idx) => {
                 return (
                   <div
                     className="ml-5 mr-5 pt-2 pb-2"
@@ -410,13 +431,8 @@ class KirimComp extends React.Component {
                       borderRadius: "10%",
                     }}
                   >
-                    {item.desc_status !== "Paket diproses" ||
-                    this.state.dataBarang.length === 0 ? (
+                    {item.idstatus === 1 && (
                       <div>
-                        <h4>Tidak ada paket yang diproses</h4>
-                      </div>
-                    ) : (
-                      <>
                         <Card
                           style={{
                             border: "none",
@@ -443,18 +459,16 @@ class KirimComp extends React.Component {
                             </CardText>
                           </CardBody>
                         </Card>
-                      </>
+                      </div>
                     )}
                   </div>
                 );
               })}
             </Carousel>
-            {/* RECEIPT DETAILS */}
-
+            ;{/* RECEIPT DETAILS */}
             <h5 style={{ marginLeft: "2.5vw", marginTop: "5vh" }}>
               Receipt Details<hr style={{ border: "3px solid black" }}></hr>
             </h5>
-
             <div style={{ marginTop: "5vh" }}>
               <ComponentToPrint
                 ref={(el) => (this.componentRef = el)}
@@ -488,7 +502,6 @@ class KirimComp extends React.Component {
                 </>
               )}
             </div>
-
             {/* END RECEIPT DETAILS */}
           </Col>
           {/* END WAITING PICK */}
