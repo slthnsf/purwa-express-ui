@@ -6,6 +6,8 @@ import {
     CardBody,
     Modal,
     ModalBody,
+    ListGroup,
+    ListGroupItem,
 } from "reactstrap";
 import testiback1 from "../assets/img/testiback1.gif";
 
@@ -58,7 +60,58 @@ class ModalTrackPacket extends React.Component {
                                                     Status:
                                                     <br></br>
                                                     <span style={{ fontSize: "14px", fontWeight: "400" }}>
-                                                        {this.props.dataTrack[0].desc_status}
+                                                        {this.props.dataTrack[0].status.map((item, idx) => {
+                                                            return (
+                                                                <div>
+                                                                    {item.idstatus == 1 ? (
+                                                                        <>
+                                                                            <ListGroup style={{ border: "none" }}>
+                                                                                <ListGroupItem>
+                                                                                    {item.desc_status}
+                                                                                </ListGroupItem>
+                                                                            </ListGroup>
+                                                                        </>
+                                                                    ) : item.idstatus == 2 ? (
+                                                                        <>
+                                                                            <ListGroup>
+                                                                                <ListGroupItem>
+                                                                                    {item.desc_status}&nbsp;
+                                                                                    {item.asal}
+                                                                                </ListGroupItem>
+                                                                            </ListGroup>
+                                                                        </>
+                                                                    ) : item.idstatus == 3 ||
+                                                                        item.idstatus == 4 ? (
+                                                                        <>
+                                                                            <ListGroup>
+                                                                                <ListGroupItem>
+                                                                                    {item.desc_status}&nbsp;
+                                                                                    {item.tujuan}
+                                                                                </ListGroupItem>
+                                                                            </ListGroup>
+                                                                        </>
+                                                                    ) : item.idstatus == 5 ? (
+                                                                        <>
+                                                                            <ListGroup>
+                                                                                <ListGroupItem>
+                                                                                    {item.desc_status}&nbsp;
+                                                                                    {item.alamat}
+                                                                                </ListGroupItem>
+                                                                            </ListGroup>
+                                                                        </>
+                                                                    ) : (
+                                                                        <>
+                                                                            <ListGroup>
+                                                                                <ListGroupItem>
+                                                                                    {item.desc_status}&nbsp;
+                                                                                    {item.nama_penerima}
+                                                                                </ListGroupItem>
+                                                                            </ListGroup>
+                                                                        </>
+                                                                    )}
+                                                                </div>
+                                                            );
+                                                        })}
                                                     </span>
                                                     <br></br>
                                                     <br></br>
