@@ -15,22 +15,9 @@ import {
   DropdownMenu,
   DropdownItem,
   NavbarText,
-  Button,
-  Modal,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  Form,
-  FormGroup,
-  Label,
-  Input,
 } from "reactstrap";
-import GifPlayer from "react-gif-player";
-import logogif from "../../assets/img/Purwa Express.gif";
-import logo from "../../assets/img/logo.png";
-import logo1 from "../../assets/img/logo.gif";
-import loginback from "../../assets/img/loginback.jpg";
-import { Link, Redirect } from "react-router-dom";
+
+import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { authLogin, authLogout } from "../../actions";
 
@@ -39,17 +26,14 @@ class NavbarAdminComp extends React.Component {
     super(props);
     this.state = {
       isOpen: false,
-      modal: false
+      modal: false,
     };
   }
 
   render() {
     return (
       <Navbar expand="md" style={{ backgroundColor: "rgb(247,190,103)" }}>
-        <NavbarBrand href="/">
-          {/* <GifPlayer gif={logo} style={{ width: "20%" }} autoplay={true} /> */}
-          {/* <img src={logo} width="40%" alt="logo" /> */}
-        </NavbarBrand>
+        <NavbarBrand href="/"></NavbarBrand>
         <NavbarToggler
           onClick={() => {
             this.setState({ isOpen: !this.state.isOpen });
@@ -90,7 +74,12 @@ class NavbarAdminComp extends React.Component {
         <NavItem style={{ listStyleType: "none" }}>
           {this.props.username ? (
             <UncontrolledDropdown>
-              <DropdownToggle DropdownToggle nav caret style={{ color: "gray" }} >
+              <DropdownToggle
+                DropdownToggle
+                nav
+                caret
+                style={{ color: "gray" }}
+              >
                 Hello, {this.props.username}
               </DropdownToggle>
               <DropdownMenu right>
@@ -100,10 +89,16 @@ class NavbarAdminComp extends React.Component {
                   </>
                 ) : (
                   <>
-                    <Link to="/kirim" style={{ textDecoration: "none", color: "black" }} >
+                    <Link
+                      to="/kirim"
+                      style={{ textDecoration: "none", color: "black" }}
+                    >
                       <DropdownItem>Pengiriman Baru</DropdownItem>
                     </Link>
-                    <Link to="/history" style={{ textDecoration: "none", color: "black" }} >
+                    <Link
+                      to="/history"
+                      style={{ textDecoration: "none", color: "black" }}
+                    >
                       <DropdownItem>History Pengiriman</DropdownItem>
                     </Link>
                   </>

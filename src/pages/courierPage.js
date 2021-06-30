@@ -4,6 +4,7 @@ import "react-pro-sidebar/dist/css/styles.css";
 import { Container, Row, Col, Button } from "reactstrap";
 import dropship from "../assets/img/courier.png";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
 
 class CourierPage extends React.Component {
   constructor(props) {
@@ -12,12 +13,19 @@ class CourierPage extends React.Component {
   }
   render() {
     return (
-      <Container fluid style={{ background: "linear-gradient(0deg, rgba(254,104,84,1) 0%, rgba(247,190,103,1) 100%)",
-          width: "100%", height: "95vh" }} >
+      <Container
+        fluid
+        style={{
+          background:
+            "linear-gradient(0deg, rgba(254,104,84,1) 0%, rgba(247,190,103,1) 100%)",
+          width: "100%",
+          height: "95vh",
+        }}
+      >
         <Row>
           <Col md="12" style={{ textAlign: "center", paddingTop: "10vh" }}>
             <img src={dropship} width="40%" />
-            <h3>Welcome Back Courier!</h3>
+            <h3>Welcome Back {this.props.nama}!</h3>
             <Container>
               <Row>
                 <Col md="3"></Col>
@@ -31,8 +39,16 @@ class CourierPage extends React.Component {
                 </Col>
               </Row>
             </Container>
-            <Link className="d-flex pr-5" to="/kirim"
-              style={{ display: "flex", textDecoration: "none", justifyContent: "center", alignItems: "center" }} >
+            <Link
+              className="d-flex pr-5"
+              to="/input"
+              style={{
+                display: "flex",
+                textDecoration: "none",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
               <Button color="warning">Input Pengiriman</Button>
             </Link>
           </Col>
@@ -42,4 +58,12 @@ class CourierPage extends React.Component {
   }
 }
 
-export default CourierPage;
+const mapStateToProps = ({ usersReducer }) => {
+  return {
+    nama: usersReducer.nama,
+    idrole: usersReducer.idrole,
+    username: usersReducer.username,
+  };
+};
+
+export default connect(mapStateToProps)(CourierPage);
