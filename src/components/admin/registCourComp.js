@@ -23,6 +23,8 @@ import testiback1 from "../../assets/img/testiback1.gif";
 import Carousel from "react-multi-carousel";
 import axios from "axios";
 import { URL_API } from "../../helper";
+import { connect } from "react-redux";
+import { getCourier } from "../../actions" 
 
 class RegsitCourComp extends React.Component {
   constructor(props) {
@@ -136,6 +138,7 @@ class RegsitCourComp extends React.Component {
                       }),
                     3000
                   );
+                  this.getKurir()
                   console.log(res.data);
                   this.regisKurirUname.value = null;
                   this.regisKurirName.value = null;
@@ -222,6 +225,8 @@ class RegsitCourComp extends React.Component {
   };
 
   render() {
+    console.log("kurir", this.props.kurir )
+
     return (
       <Container
         fluid
@@ -305,5 +310,7 @@ class RegsitCourComp extends React.Component {
     );
   }
 }
+
+
 
 export default RegsitCourComp;
