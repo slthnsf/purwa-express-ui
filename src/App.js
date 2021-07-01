@@ -19,6 +19,7 @@ import { URL_API } from "./helper";
 import axios from "axios";
 import { keepLogin, getDataPacketAction } from "./actions";
 import { connect } from "react-redux";
+import historyAdmin from "./components/admin/historyAdmin";
 
 class App extends React.Component {
   constructor(props) {
@@ -62,6 +63,7 @@ class App extends React.Component {
               <Route path="/" component={AdminPage} exact />
               <Route path="/courier" component={RegistCourComp} />
               <Route path="/kirim" component={KirimComp} />
+              <Route path="/history" component={historyAdmin} />
             </Switch>
             <FooterComp />
           </>
