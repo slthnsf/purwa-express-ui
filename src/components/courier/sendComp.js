@@ -36,6 +36,7 @@ class sendComp extends React.Component {
       dataPengiriman: [],
       dataKota: [],
       dataStatus: [],
+      dataInput: [],
     };
   }
 
@@ -43,6 +44,7 @@ class sendComp extends React.Component {
     this.getPengiriman();
     this.getKota();
     this.getStatus();
+    this.getDataInput();
   }
 
   responsive = {
@@ -63,6 +65,24 @@ class sendComp extends React.Component {
       breakpoint: { max: 464, min: 0 },
       items: 1,
     },
+  };
+
+  getDataInput = () => {
+    axios
+      .get(`http://localhost:2000/admin/get-input`)
+      .then((res) => {
+        this.setState({ dataInput: res.data });
+        if (this.state.dataInput.length / 2 === 0) {
+          {
+            this.setState({ imgback: testiback1 });
+          }
+        } else {
+          this.setState({ imgback: testiback });
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   getPengiriman = () => {
@@ -120,10 +140,10 @@ class sendComp extends React.Component {
   onBtInputPengiriman = () => {
     axios
       .post(`http://localhost:2000/courier/add-pengiriman`, {
-        idusers: this.props.data[this.state.isIndex].idusers,
-        iddata: this.props.data[this.state.isIndex].iddata,
+        idusers: this.state.dataInput[this.state.isIndex].idusers,
+        iddata: this.state.dataInput[this.state.isIndex].iddata,
         idstatus: 2,
-        resi: this.props.data[this.state.isIndex].resi,
+        resi: this.state.dataInput[this.state.isIndex].resi,
         idcourier: this.props.idusers,
       })
       .then((res) => {
@@ -170,10 +190,11 @@ class sendComp extends React.Component {
 
   render() {
     // console.log("data barang", this.props.data[this.state.isIndex].iddata);
-    console.log("data barang", this.state.isIndex);
+    console.log("data barang idx", this.state.isIndex);
     console.log("data pengiriman", this.state.dataPengiriman);
     console.log("data users", this.props.idusers);
     console.log("index2", this.state.isIndex2);
+    console.log("data input", this.state.dataInput);
     return (
       <Container
         fluid
@@ -181,6 +202,7 @@ class sendComp extends React.Component {
           background:
             "linear-gradient(0deg, rgba(254,104,84,1) 0%, rgba(247,190,103,1) 100%)",
           width: "100%",
+          height: "100vh",
         }}
       >
         {this.printAccept()}
@@ -297,7 +319,8 @@ class sendComp extends React.Component {
                   </Container>
 
                   <Carousel responsive={this.responsive}>
-                    {this.props.data.map((item, idx) => {
+                    {this.state.dataInput.map((item, idx) => {
+                      console.log("dataInput", item);
                       return (
                         <div
                           className="ml-5 mr-5 pt-2 pb-2"
@@ -305,7 +328,7 @@ class sendComp extends React.Component {
                             borderRadius: "10%",
                           }}
                         >
-                          {item.idstatus === 1 && (
+                          {item.idstatus === 1 ? (
                             <div>
                               <Card
                                 style={{
@@ -352,6 +375,40 @@ class sendComp extends React.Component {
                                 </CardBody>
                               </Card>
                             </div>
+                          ) : (
+                            <>
+                              <Card
+                                style={{
+                                  border: "none",
+                                  boxShadow:
+                                    "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)",
+                                  borderRadius: "10%",
+                                  backgroundImage: `url(${testiback})`,
+                                }}
+                              >
+                                <CardBody>
+                                  <CardTitle
+                                    tag="h5"
+                                    style={{ textAlign: "center" }}
+                                  >
+                                    {item.kota_penerima}
+                                  </CardTitle>
+                                  <CardSubtitle
+                                    tag="h6"
+                                    className="mb-2 text-muted "
+                                    style={{ textAlign: "center" }}
+                                  >
+                                    {item.desc_status}
+                                  </CardSubtitle>
+                                  <CardText style={{ textAlign: "center" }}>
+                                    {`${item.berat_barang / 1000} Kg`}
+                                  </CardText>
+                                  <CardText style={{ textAlign: "center" }}>
+                                    {item.resi}
+                                  </CardText>
+                                </CardBody>
+                              </Card>
+                            </>
                           )}
                         </div>
                       );

@@ -707,7 +707,7 @@ class StatusComp extends React.Component {
             {/* SELESAI KONFIRMASI */}
             <Container className="mt-5">
               <Row>
-                <h5>SELESAI KONFIRMASI</h5>
+                <h5>Selesai Konfirmasi</h5>
                 <Col md="12 mt-3">
                   {this.state.dataAllKonfirmasi.map((item, idx) => {
                     return (
