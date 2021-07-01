@@ -431,7 +431,7 @@ class KirimComp extends React.Component {
                       borderRadius: "10%",
                     }}
                   >
-                    {item.idstatus === 1 && (
+                    {item.idstatus === 1 ? (
                       <div>
                         <Card
                           style={{
@@ -460,12 +460,41 @@ class KirimComp extends React.Component {
                           </CardBody>
                         </Card>
                       </div>
+                    ) : (
+                      <>
+                        <Card
+                          style={{
+                            border: "none",
+                            boxShadow:
+                              "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)",
+                            borderRadius: "10%",
+                            backgroundImage: `url(${testiback1})`,
+                          }}
+                        >
+                          <CardBody>
+                            <CardTitle
+                              tag="h5"
+                              style={{ textAlign: "center" }}
+                            ></CardTitle>
+                            <CardSubtitle
+                              tag="h6"
+                              className="mb-2 text-muted "
+                              style={{ textAlign: "center" }}
+                            >
+                              Sudah Diproses
+                            </CardSubtitle>
+                            <CardText style={{ textAlign: "center" }}>
+                              {item.resi}
+                            </CardText>
+                          </CardBody>
+                        </Card>
+                      </>
                     )}
                   </div>
                 );
               })}
             </Carousel>
-            ;{/* RECEIPT DETAILS */}
+            {/* RECEIPT DETAILS */}
             <h5 style={{ marginLeft: "2.5vw", marginTop: "5vh" }}>
               Receipt Details<hr style={{ border: "3px solid black" }}></hr>
             </h5>
