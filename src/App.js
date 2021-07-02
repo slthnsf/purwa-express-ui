@@ -17,7 +17,15 @@ import FooterComp from "./components/footerComp";
 import "./assets/css/style.css";
 import { URL_API } from "./helper";
 import axios from "axios";
-import { keepLogin, getDataPacketAction } from "./actions";
+import {
+  keepLogin,
+  getDataPacketAction,
+  getData,
+  getKota,
+  getPengiriman,
+  getRoleUsers,
+  getStatus,
+} from "./actions";
 import { connect } from "react-redux";
 import historyAdmin from "./components/admin/historyAdmin";
 
@@ -32,6 +40,11 @@ class App extends React.Component {
   componentDidMount() {
     this.reLogin();
     this.props.getDataPacketAction();
+    this.props.getData();
+    this.props.getKota();
+    this.props.getRoleUsers();
+    this.props.getPengiriman();
+    this.props.getStatus();
   }
 
   reLogin = () => {
@@ -107,6 +120,12 @@ const mapStateToProps = ({ usersReducer }) => {
   };
 };
 
-export default connect(mapStateToProps, { keepLogin, getDataPacketAction })(
-  App
-);
+export default connect(mapStateToProps, {
+  keepLogin,
+  getDataPacketAction,
+  getData,
+  getKota,
+  getRoleUsers,
+  getPengiriman,
+  getStatus,
+})(App);

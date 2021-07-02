@@ -116,6 +116,15 @@ class StatusComp extends React.Component {
             color: "success",
             alert: !this.state.alert,
           });
+          setTimeout(
+            () =>
+              this.setState({
+                modal: !this.state.modal,
+              }),
+            3000
+          );
+          this.getKonfirmasi();
+          this.getPengiriman();
         })
         .catch((err) => {
           console.log(err);
@@ -435,23 +444,16 @@ class StatusComp extends React.Component {
   };
 
   render() {
-    console.log("barang perjalanan", this.barangPerjalanan());
-    console.log("trimmed", this.state.trimmedDataURL);
-    console.log("data pengiriman", this.state.dataPengiriman);
-    console.log("data index", this.state.isIndex);
-    console.log("data status", this.state.dataStatus);
-    console.log("data konfirmasi", this.state.dataAllKonfirmasi);
-
     let { trimmedDataURL } = this.state;
     return (
       <Container
         fluid
-        className="p-0"
         style={{
           background:
             "linear-gradient(0deg, rgba(254,104,84,1) 0%, rgba(247,190,103,1) 100%)",
           width: "100%",
           height: "100%",
+          paddingBottom: "25%",
         }}
       >
         <Row>
@@ -460,7 +462,7 @@ class StatusComp extends React.Component {
               {this.state.message}
             </Alert>
             <Container>
-              <Row>
+              <Row className="d-flex justify-content-between">
                 {this.printDetail()}
                 {this.printKonfirmasi()}
                 <h5>User</h5>
@@ -491,7 +493,7 @@ class StatusComp extends React.Component {
                 {/* KOLOM 2 */}
 
                 <Col
-                  md="4 mt-3 ml-5"
+                  md="4 mt-3 "
                   style={{
                     background: "white",
                     borderRadius: "15px",
@@ -513,6 +515,7 @@ class StatusComp extends React.Component {
                     </Row>
                   </Container>
                 </Col>
+                <Col md="2"></Col>
               </Row>
             </Container>
 

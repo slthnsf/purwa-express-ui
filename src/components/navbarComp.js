@@ -147,12 +147,8 @@ class NavbarComp extends React.Component {
 
   render() {
     return (
-      <Navbar expand="md">
+      <Navbar expand="md" className="mb-3 my-navbar navbar-light">
         {this.printLogin()}
-        <NavbarBrand href="/">
-          {/* <GifPlayer gif={logo} style={{ width: "20%" }} autoplay={true} /> */}
-          {/* <img src={logo} width="40%" alt="logo" /> */}
-        </NavbarBrand>
         <NavbarToggler
           onClick={() => {
             this.setState({ isOpen: !this.state.isOpen });
@@ -221,6 +217,7 @@ class NavbarComp extends React.Component {
                   onClick={() => {
                     this.setState({ modal: !this.state.modal });
                   }}
+                  style={{ color: "white" }}
                 >
                   LOGIN
                 </a>
@@ -228,7 +225,10 @@ class NavbarComp extends React.Component {
               &nbsp;
               <NavbarText>
                 <Link className="d-flex pr-5" to="/register">
-                  <a className="btncustom d-fllex justify-content-center text-decoration-none align-items-center">
+                  <a
+                    className="btncustom d-fllex justify-content-center text-decoration-none align-items-center"
+                    style={{ color: "white" }}
+                  >
                     SIGNUP
                   </a>
                 </Link>

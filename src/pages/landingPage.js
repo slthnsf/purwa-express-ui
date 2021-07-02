@@ -18,18 +18,34 @@ class LandingPage extends React.Component {
 
   render() {
     return (
-      <Container fluid className="p-0" style={{ marginTop: "-6%", zIndex: -1.5, position: "relative"}}>
+      <Container
+        fluid
+        className="p-0"
+        style={{ marginTop: "-7%", zIndex: -1.5, position: "relative" }}
+      >
         <Row>
           <Col md="12">
             <Carousel>
               <div>
-                <GifPlayer gif={banner} style={{ width: "100%" }} autoplay={true} />
+                <GifPlayer
+                  gif={banner}
+                  style={{ width: "100%" }}
+                  autoplay={true}
+                />
               </div>
               <div>
-                <GifPlayer gif={banner2} style={{ width: "100%" }} autoplay={true} />
+                <GifPlayer
+                  gif={banner2}
+                  style={{ width: "100%" }}
+                  autoplay={true}
+                />
               </div>
               <div>
-                <GifPlayer gif={banner3} style={{ width: "100%" }} autoplay={true} />
+                <GifPlayer
+                  gif={banner3}
+                  style={{ width: "100%" }}
+                  autoplay={true}
+                />
               </div>
             </Carousel>
           </Col>

@@ -22,6 +22,7 @@ import testiback1 from "../../assets/img/testiback1.gif";
 import testiback from "../../assets/img/testiback.gif";
 import { connect } from "react-redux";
 import axios from "axios";
+import { getData, getPengiriman, getStatus } from "../../actions";
 
 class sendComp extends React.Component {
   constructor(props) {
@@ -33,18 +34,7 @@ class sendComp extends React.Component {
       isOpen: false,
       message: "",
       color: "",
-      dataPengiriman: [],
-      dataKota: [],
-      dataStatus: [],
-      dataInput: [],
     };
-  }
-
-  componentDidMount() {
-    this.getPengiriman();
-    this.getKota();
-    this.getStatus();
-    this.getDataInput();
   }
 
   responsive = {
@@ -67,62 +57,11 @@ class sendComp extends React.Component {
     },
   };
 
-  getDataInput = () => {
-    axios
-      .get(`http://localhost:2000/admin/get-input`)
-      .then((res) => {
-        this.setState({ dataInput: res.data });
-        if (this.state.dataInput.length / 2 === 0) {
-          {
-            this.setState({ imgback: testiback1 });
-          }
-        } else {
-          this.setState({ imgback: testiback });
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
-  getPengiriman = () => {
-    axios
-      .get("http://localhost:2000/courier/get-pengiriman")
-      .then((res) => {
-        this.setState({ dataPengiriman: res.data });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
-  getStatus = () => {
-    axios
-      .get("http://localhost:2000/courier/get-status")
-      .then((res) => {
-        this.setState({ dataStatus: res.data });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
-  getKota = () => {
-    axios
-      .get(`http://localhost:2000/ongkir/getCity`)
-      .then((res) => {
-        this.setState({ dataKota: res.data });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
   updateStatus = () => {
     axios
       .patch("http://localhost:2000/courier/update-status", {
-        idpengiriman: this.state.dataPengiriman[this.resiIn.value].idpengiriman,
-        iddata: this.state.dataPengiriman[this.resiIn.value].iddata,
+        idpengiriman: this.props.pengiriman[this.resiIn.value].idpengiriman,
+        iddata: this.props.pengiriman[this.resiIn.value].iddata,
         idstatus: parseInt(this.statusIn.value),
       })
       .then((res) => {
@@ -131,6 +70,15 @@ class sendComp extends React.Component {
           color: "success",
           message: "Sukses Update Status",
         });
+        this.props.getData();
+        this.props.getPengiriman();
+        setTimeout(
+          () =>
+            this.setState({
+              isOpen: !this.state.isOpen,
+            }),
+          3000
+        );
       })
       .catch((err) => {
         console.log(err);
@@ -140,14 +88,16 @@ class sendComp extends React.Component {
   onBtInputPengiriman = () => {
     axios
       .post(`http://localhost:2000/courier/add-pengiriman`, {
-        idusers: this.state.dataInput[this.state.isIndex].idusers,
-        iddata: this.state.dataInput[this.state.isIndex].iddata,
+        idusers: this.props.data[this.state.isIndex].idusers,
+        iddata: this.props.data[this.state.isIndex].iddata,
         idstatus: 2,
-        resi: this.state.dataInput[this.state.isIndex].resi,
+        resi: this.props.data[this.state.isIndex].resi,
         idcourier: this.props.idusers,
       })
       .then((res) => {
         this.setState({ modal: !this.state.modal });
+        this.props.getData();
+        this.props.getPengiriman();
       })
       .catch((err) => {
         console.log(err);
@@ -189,12 +139,6 @@ class sendComp extends React.Component {
   };
 
   render() {
-    // console.log("data barang", this.props.data[this.state.isIndex].iddata);
-    console.log("data barang idx", this.state.isIndex);
-    console.log("data pengiriman", this.state.dataPengiriman);
-    console.log("data users", this.props.idusers);
-    console.log("index2", this.state.isIndex2);
-    console.log("data input", this.state.dataInput);
     return (
       <Container
         fluid
@@ -202,12 +146,13 @@ class sendComp extends React.Component {
           background:
             "linear-gradient(0deg, rgba(254,104,84,1) 0%, rgba(247,190,103,1) 100%)",
           width: "100%",
-          height: "100vh",
+          marginTop: "-5%",
+          paddingBottom: "18%",
         }}
       >
         {this.printAccept()}
-        <Row className="pt-4">
-          <Col md="6 mt-3">
+        <Row style={{ paddingTop: "10vh" }}>
+          <Col md="6 pt-5">
             <h5>
               Input Pengiriman<hr style={{ border: "3px solid black" }}></hr>
             </h5>
@@ -224,7 +169,7 @@ class sendComp extends React.Component {
                   innerRef={(elemen) => (this.resiIn = elemen)}
                 >
                   <option>Pilih Resi</option>
-                  {this.state.dataPengiriman.map((item, idx) => {
+                  {this.props.pengiriman.map((item, idx) => {
                     return (
                       <>
                         <option value={idx}>{item.resi}</option>
@@ -242,7 +187,7 @@ class sendComp extends React.Component {
                   innerRef={(elemen) => (this.statusIn = elemen)}
                 >
                   <option>Pilih Status</option>
-                  {this.state.dataStatus.map((item, idx) => {
+                  {this.props.status.map((item, idx) => {
                     return (
                       <>
                         <option value={item.idstatus}>
@@ -268,7 +213,7 @@ class sendComp extends React.Component {
                   <Container>
                     <Row>
                       <Col
-                        md="6"
+                        md="6 mt-5"
                         className="d-flex justify-content-start align-items-center "
                       >
                         <div>
@@ -296,7 +241,7 @@ class sendComp extends React.Component {
                                 innerRef={(elemen) => (this.filterIn = elemen)}
                               >
                                 <option value="0">Semua Kota</option>
-                                {this.state.dataKota.map((item, idx) => {
+                                {this.props.kota.map((item, idx) => {
                                   return (
                                     <>
                                       <option
@@ -319,8 +264,7 @@ class sendComp extends React.Component {
                   </Container>
 
                   <Carousel responsive={this.responsive}>
-                    {this.state.dataInput.map((item, idx) => {
-                      console.log("dataInput", item);
+                    {this.props.data.map((item, idx) => {
                       return (
                         <div
                           className="ml-5 mr-5 pt-2 pb-2"
@@ -423,7 +367,7 @@ class sendComp extends React.Component {
                     <hr style={{ border: "3px solid black" }}></hr>
                   </h5>
                   <Carousel responsive={this.responsive}>
-                    {this.state.dataPengiriman.map((item, idx) => {
+                    {this.props.pengiriman.map((item, idx) => {
                       return (
                         <div
                           className="ml-5 mr-5 pt-2 pb-2"
@@ -433,7 +377,37 @@ class sendComp extends React.Component {
                         >
                           {item.idstatus === 1 ? (
                             <div>
-                              <h4>Paket sedang diproses</h4>
+                              <Card
+                                style={{
+                                  border: "none",
+                                  boxShadow:
+                                    "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)",
+                                  borderRadius: "10%",
+                                  backgroundImage: `url(${testiback})`,
+                                }}
+                              >
+                                <CardBody>
+                                  <CardTitle
+                                    tag="h5"
+                                    style={{ textAlign: "center" }}
+                                  >
+                                    {item.kota_penerima}
+                                  </CardTitle>
+                                  <CardSubtitle
+                                    tag="h6"
+                                    className="mb-2 text-muted "
+                                    style={{ textAlign: "center" }}
+                                  >
+                                    {item.desc_status}
+                                  </CardSubtitle>
+                                  <CardText style={{ textAlign: "center" }}>
+                                    {`${item.berat_barang / 1000} Kg`}
+                                  </CardText>
+                                  <CardText style={{ textAlign: "center" }}>
+                                    {item.resi}
+                                  </CardText>
+                                </CardBody>
+                              </Card>
                             </div>
                           ) : item.idstatus === 2 ||
                             item.idstatus === 3 ||
@@ -490,11 +464,21 @@ class sendComp extends React.Component {
   }
 }
 
-const mapStateToProps = ({ packetReducers, usersReducer }) => {
+const mapStateToProps = ({
+  packetReducers,
+  usersReducer,
+  adminReducers,
+  courierReducers,
+}) => {
   return {
     idusers: usersReducer.idusers,
-    data: packetReducers.packet_list,
+    data: adminReducers.data,
+    kota: adminReducers.kota,
+    pengiriman: courierReducers.pengiriman,
+    status: courierReducers.status,
   };
 };
 
-export default connect(mapStateToProps)(sendComp);
+export default connect(mapStateToProps, { getData, getPengiriman, getStatus })(
+  sendComp
+);
