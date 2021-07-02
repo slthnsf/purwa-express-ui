@@ -32,7 +32,11 @@ class NavbarAdminComp extends React.Component {
 
   render() {
     return (
-      <Navbar expand="md" style={{ backgroundColor: "rgb(247,190,103)" }}>
+      <Navbar
+        expand="md"
+        style={{ backgroundColor: "rgb(247,190,103)" }}
+        className="mb-3 my-navbar navbar-light"
+      >
         <NavbarBrand href="/"></NavbarBrand>
         <NavbarToggler
           onClick={() => {

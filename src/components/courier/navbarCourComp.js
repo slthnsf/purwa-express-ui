@@ -49,7 +49,11 @@ class NavbarCourComp extends React.Component {
 
   render() {
     return (
-      <Navbar expand="md" style={{ backgroundColor: "rgb(247,190,103)" }}>
+      <Navbar
+        expand="md"
+        style={{ backgroundColor: "rgb(247,190,103)" }}
+        className="mb-3 my-navbar navbar-light"
+      >
         <NavbarBrand href="/">
           {/* <GifPlayer gif={logo} style={{ width: "20%" }} autoplay={true} /> */}
           {/* <img src={logo} width="40%" alt="logo" /> */}

@@ -230,12 +230,13 @@ class RegsitCourComp extends React.Component {
           background:
             "linear-gradient(0deg, rgba(254,104,84,1) 0%, rgba(247,190,103,1) 100%)",
           width: "100%",
-          height: "100vh",
+          marginTop: "-4.5%",
+          paddingBottom: "19%",
         }}
       >
         <Row>
           {/* INPUT FORM COURIER */}
-          <Col md="6" className="pl-5">
+          <Col md="6" className="pl-5 pt-5 pb-5">
             <h5>Registrasi Courier</h5>
             <Alert isOpen={this.state.alert} color={this.state.alertType}>
               {this.state.message}
@@ -292,7 +293,7 @@ class RegsitCourComp extends React.Component {
           </Col>
 
           {/* LIST COURIER */}
-          <Col md="6">
+          <Col md="6 pt-5">
             <h5 style={{ marginLeft: "3vw", marginBottom: "5vh" }}>
               List Courier
             </h5>

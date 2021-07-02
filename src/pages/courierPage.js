@@ -19,23 +19,26 @@ class CourierPage extends React.Component {
           background:
             "linear-gradient(0deg, rgba(254,104,84,1) 0%, rgba(247,190,103,1) 100%)",
           width: "100%",
-          height: "95vh",
+          marginTop: "-5%",
+          paddingBottom: "20%",
+          paddingTop: "7%",
+          paddingLeft: "0%",
+          paddingRight: "0%",
         }}
       >
         <Row>
-          <Col md="12" style={{ textAlign: "center", paddingTop: "10vh" }}>
-            <img src={dropship} width="40%" />
+          <Col md="4"></Col>
+          <Col md="4 mt-5" style={{ textAlign: "center" }}>
+            <img src={dropship} width="100%" />
             <h3>Welcome Back {this.props.nama}!</h3>
             <Container>
               <Row>
-                <Col md="3"></Col>
-                <Col md="6">
+                <Col md="12">
                   <p>
-                    Input data pengiriman barang oleh admin, jangan lupa
+                    Input data pengiriman barang oleh courier, jangan lupa
                     perhatikan value form agar tidak terjadi kesalahan saat
                     penginputan data.
                   </p>
-                  <Col md="3"></Col>
                 </Col>
               </Row>
             </Container>
@@ -52,6 +55,7 @@ class CourierPage extends React.Component {
               <Button color="warning">Input Pengiriman</Button>
             </Link>
           </Col>
+          <Col md="4"></Col>
         </Row>
       </Container>
     );
