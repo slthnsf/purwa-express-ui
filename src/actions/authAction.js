@@ -39,3 +39,18 @@ export const keepLogin = (data) => {
         }
     }
 }
+
+export const getUser = () => {
+    return async (dispatch) => {
+        try {
+            let res = await axios.get(URL_API + `/users/get-courier`)
+            console.log("data kurir:", res.data)
+            dispatch({
+                type: "GET_DATA_COURIER",
+                payload: res.data
+            })
+        } catch (error) {
+            console.log(error)
+        }
+    }
+}
