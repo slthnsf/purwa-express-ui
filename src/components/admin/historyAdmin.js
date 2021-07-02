@@ -305,7 +305,7 @@ class HistoryComp extends React.Component {
         return (
             <Container fluid className="p-0" style={{
                 background: "linear-gradient(0deg, rgba(254,104,84,1) 0%, rgba(247,190,103,1) 100%)",
-                width: "100%", height: "100vh"
+                width: "100%", height: "100%"
             }} >
                 <Row>
                     <Col md="12 mt-3">
