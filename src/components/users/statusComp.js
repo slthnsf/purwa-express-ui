@@ -453,6 +453,7 @@ class StatusComp extends React.Component {
             "linear-gradient(0deg, rgba(254,104,84,1) 0%, rgba(247,190,103,1) 100%)",
           width: "100%",
           height: "100%",
+          paddingBottom: "25%",
         }}
       >
         <Row>
