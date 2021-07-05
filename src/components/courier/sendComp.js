@@ -23,6 +23,7 @@ import testiback from "../../assets/img/testiback.gif";
 import { connect } from "react-redux";
 import axios from "axios";
 import { getData, getPengiriman, getStatus } from "../../actions";
+import { URL_API } from "../../helper"
 
 class sendComp extends React.Component {
   constructor(props) {
@@ -59,7 +60,7 @@ class sendComp extends React.Component {
 
   updateStatus = () => {
     axios
-      .patch("http://localhost:2000/courier/update-status", {
+      .patch(URL_API + "/courier/update-status", {
         idpengiriman: this.props.pengiriman[this.resiIn.value].idpengiriman,
         iddata: this.props.pengiriman[this.resiIn.value].iddata,
         idstatus: parseInt(this.statusIn.value),
@@ -87,7 +88,7 @@ class sendComp extends React.Component {
 
   onBtInputPengiriman = () => {
     axios
-      .post(`http://localhost:2000/courier/add-pengiriman`, {
+      .post(URL_API + `/courier/add-pengiriman`, {
         idusers: this.props.data[this.state.isIndex].idusers,
         iddata: this.props.data[this.state.isIndex].iddata,
         idstatus: 2,

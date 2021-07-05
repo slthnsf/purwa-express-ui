@@ -10,7 +10,7 @@ class MissionComp extends React.Component {
   }
   render() {
     return (
-      <Container fluid className="mt-5 p-0">
+      <Container fluid className="mt-5 p-3">
         <Row>
           <Col md="6">
             <GifPlayer gif={misi} style={{ width: "100%" }} autoplay={true} />

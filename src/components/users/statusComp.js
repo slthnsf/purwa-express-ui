@@ -25,6 +25,7 @@ import background from "../../assets/img/backregister.jpg";
 import { connect } from "react-redux";
 import axios from "axios";
 import testiback1 from "../../assets/img/testiback1.gif";
+import { URL_API } from "../../helper"
 
 class StatusComp extends React.Component {
   constructor(props) {
@@ -72,7 +73,7 @@ class StatusComp extends React.Component {
 
   getPengiriman = () => {
     axios
-      .get("http://localhost:2000/admin/get-pengiriman")
+      .get(URL_API + "/admin/get-pengiriman")
       .then((res) => {
         this.setState({ dataPengiriman: res.data });
       })
@@ -83,7 +84,7 @@ class StatusComp extends React.Component {
 
   getStatusKirim = () => {
     axios
-      .get(`http://localhost:2000/admin/get-status`)
+      .get(URL_API + `/admin/get-status`)
       .then((res) => {
         this.setState({ dataStatus: res.data });
       })
@@ -102,7 +103,7 @@ class StatusComp extends React.Component {
       });
     } else {
       axios
-        .post("http://localhost:2000/admin/add-konfirmasi", {
+        .post(URL_API + "/admin/add-konfirmasi", {
           idpengiriman: this.state.isIndex1.idpengiriman,
           iddata: this.state.isIndex1.iddata,
           signature: this.state.trimmedDataURL,
@@ -134,7 +135,7 @@ class StatusComp extends React.Component {
 
   getKonfirmasi = () => {
     axios
-      .get(`http://localhost:2000/admin/get-konfirmasi`)
+      .get(URL_API + `/admin/get-konfirmasi`)
       .then((res) => {
         this.setState({ dataAllKonfirmasi: res.data });
       })
