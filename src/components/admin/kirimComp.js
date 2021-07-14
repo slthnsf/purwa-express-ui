@@ -24,6 +24,7 @@ import axios from "axios";
 import ComponentToPrint from "./componentToPrint";
 import { connect } from "react-redux";
 import { getData } from "../../actions";
+import { URL_API } from "../../helper"
 
 class KirimComp extends React.Component {
   constructor(props) {
@@ -83,7 +84,7 @@ class KirimComp extends React.Component {
 
   findCost = () => {
     axios
-      .post(`http://localhost:2000/ongkir/cost`, {
+      .post(URL_API + `/ongkir/cost`, {
         origin: this.kotaAsalIn.value,
         destination: this.kotaPenerimaIn.value,
         weight: this.beratBarangIn.value,
@@ -132,7 +133,7 @@ class KirimComp extends React.Component {
       });
     } else {
       axios
-        .post(`http://localhost:2000/admin/add-data`, {
+        .post(URL_API + `/admin/add-data`, {
           jenisbarang: this.jenisBarangIn.value,
           namapengirim: this.namaPengirimIn.value,
           username: parseInt(this.usernameIn.value),

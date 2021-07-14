@@ -4,7 +4,7 @@ import { URL_API } from "../helper";
 export const getData = () => {
   return async (dispatch) => {
     try {
-      let res = await axios.get(`http://localhost:2000/admin/get-input`);
+      let res = await axios.get(URL_API + `/admin/get-input`);
       dispatch({
         type: "GET_DATA",
         payload: res.data,
@@ -18,7 +18,7 @@ export const getData = () => {
 export const getKota = () => {
   return async (dispatch) => {
     try {
-      let res = await axios.get(`http://localhost:2000/ongkir/getCity`);
+      let res = await axios.get(URL_API + `/ongkir/getCity`);
       dispatch({
         type: "GET_KOTA",
         payload: res.data,
@@ -32,7 +32,7 @@ export const getKota = () => {
 export const getRoleUsers = () => {
   return async (dispatch) => {
     try {
-      let res = await axios.get(`http://localhost:2000/users/usersRole`);
+      let res = await axios.get(URL_API + `/users/usersRole`);
       dispatch({
         type: "GET_ROLE_USERS",
         payload: res.data,

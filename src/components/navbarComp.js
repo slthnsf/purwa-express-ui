@@ -149,12 +149,12 @@ class NavbarComp extends React.Component {
     return (
       <Navbar expand="md" className="mb-3 my-navbar navbar-light">
         {this.printLogin()}
-        <NavbarToggler
+        {/* <NavbarToggler
           onClick={() => {
             this.setState({ isOpen: !this.state.isOpen });
           }}
-        />
-        <Collapse isOpen={this.state.isOpen} navbar>
+        /> */}
+        {/* <Collapse isOpen={this.state.isOpen} navbar> */}
           <Nav className="m-auto" navbar>
             <NavItem>
               <NavLink href="#">
@@ -173,7 +173,7 @@ class NavbarComp extends React.Component {
               </NavItem>
             )}
           </Nav>
-        </Collapse>
+        {/* </Collapse> */}
         <NavItem style={{ listStyleType: "none" }}>
           {this.props.username ? (
             <UncontrolledDropdown>
