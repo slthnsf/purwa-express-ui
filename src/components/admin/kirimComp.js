@@ -23,16 +23,15 @@ import Carousel from "react-multi-carousel";
 import axios from "axios";
 import ComponentToPrint from "./componentToPrint";
 import { connect } from "react-redux";
+import { getData } from "../../actions";
+import { URL_API } from "../../helper"
 
 class KirimComp extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      dataKota: [],
       dataCost: [],
-      dataUser: [],
       dataReceipt: [],
-      dataBarang: [],
       imgback: "",
       message: "",
       color: "success",
@@ -60,30 +59,6 @@ class KirimComp extends React.Component {
     },
   };
 
-  componentDidMount() {
-    this.getKota();
-    this.getUser();
-    this.getDataBarang();
-  }
-
-  getDataBarang = () => {
-    axios
-      .get(`http://localhost:2000/admin/get-data`)
-      .then((res) => {
-        this.setState({ dataBarang: res.data });
-        if (this.state.dataBarang.length / 2 === 0) {
-          {
-            this.setState({ imgback: testiback1 });
-          }
-        } else {
-          this.setState({ imgback: testiback });
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
   getDate = () => {
     let date;
     var d = new Date();
@@ -101,40 +76,15 @@ class KirimComp extends React.Component {
       d.getSeconds());
   };
 
-  getUser = () => {
-    axios
-      .get(`http://localhost:2000/users/usersRole`)
-      .then((res) => {
-        this.setState({ dataUser: res.data });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
   handleUser = () => {
-    return this.state.dataUser.map((item) => {
+    return this.props.role.map((item) => {
       return item;
     });
   };
 
-  getKota = () => {
-    axios
-      .get(`http://localhost:2000/ongkir/getCity`)
-      .then((res) => {
-        this.setState({ dataKota: res.data });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
   findCost = () => {
-    // console.log("origin", this.kotaAsalIn.value);
-    // console.log("destination", this.kotaPenerimaIn.value);
-    // console.log("weight", this.weightIn.value);
     axios
-      .post(`http://localhost:2000/ongkir/cost`, {
+      .post(URL_API + `/ongkir/cost`, {
         origin: this.kotaAsalIn.value,
         destination: this.kotaPenerimaIn.value,
         weight: this.beratBarangIn.value,
@@ -183,7 +133,7 @@ class KirimComp extends React.Component {
       });
     } else {
       axios
-        .post(`http://localhost:2000/admin/add-data`, {
+        .post(URL_API + `/admin/add-data`, {
           jenisbarang: this.jenisBarangIn.value,
           namapengirim: this.namaPengirimIn.value,
           username: parseInt(this.usernameIn.value),
@@ -212,10 +162,19 @@ class KirimComp extends React.Component {
           this.setState({
             message: "Selamat! , Input Pengiriman Berhasil",
             color: "success",
-            isOpen: true,
+            isOpen: !this.state.isOpen,
             dataReceipt: res.data,
             isFalse: true,
           });
+          setTimeout(
+            () =>
+              this.setState({
+                isOpen: !this.state.isOpen,
+              }),
+            3000
+          );
+          this.props.getData();
+          this.props.getPengiriman();
         })
         .catch((err) => {
           console.log(err);
@@ -224,16 +183,6 @@ class KirimComp extends React.Component {
   };
 
   render() {
-    // console.log("data kota", this.state.dataKota);
-    // console.log("data cost", this.state.dataCost);
-    // console.log("data price", this.getPrice()[1]);
-    // console.log("user", this.handleUser());
-    console.log(
-      "resi",
-      this.generateResi().slice(0, 11) + `${Math.floor(Math.random() * 9)}`
-    );
-    // console.log("date", this.getDate());
-    console.log("data barang", this.state.dataBarang);
     return (
       <Container
         fluid
@@ -242,11 +191,12 @@ class KirimComp extends React.Component {
           background:
             "linear-gradient(0deg, rgba(254,104,84,1) 0%, rgba(247,190,103,1) 100%)",
           width: "100%",
+          marginTop: "-4.5%",
         }}
       >
         <Row style={{ paddingBottom: "13vh" }}>
           {/* INPUT FORM COURIER */}
-          <Col md="6" className="pl-5">
+          <Col md="6" className="pl-5 pt-5">
             <h5>
               Pengiriman Barang<hr style={{ border: "3px solid black" }}></hr>
             </h5>
@@ -280,8 +230,8 @@ class KirimComp extends React.Component {
                   id="exampleUsernamePengirim"
                   innerRef={(elemen) => (this.usernameIn = elemen)}
                 >
-                  <option value="0">Tidak Memiliki Akun</option>
-                  {this.state.dataUser.map((item, idx) => {
+                  <option value="4">Tidak Memiliki Akun</option>
+                  {this.props.role.map((item, idx) => {
                     return (
                       <>
                         <option value={item.idusers}>{item.username}</option>
@@ -319,7 +269,7 @@ class KirimComp extends React.Component {
                   innerRef={(elemen) => (this.kotaAsalIn = elemen)}
                   onChange={this.findCost}
                 >
-                  {this.state.dataKota.map((item, idx) => {
+                  {this.props.kota.map((item, idx) => {
                     return (
                       <>
                         <option value={item.id}>{item.city}</option>
@@ -337,7 +287,7 @@ class KirimComp extends React.Component {
                   innerRef={(elemen) => (this.kotaPenerimaIn = elemen)}
                   onChange={this.findCost}
                 >
-                  {this.state.dataKota.map((item, idx) => {
+                  {this.props.kota.map((item, idx) => {
                     return (
                       <>
                         <option value={item.id}>{item.city}</option>
@@ -397,12 +347,12 @@ class KirimComp extends React.Component {
           </Col>
 
           {/* LIST COURIER */}
-          <Col md="6">
+          <Col md="6 pt-5">
             <h5 style={{ marginLeft: "2vw", marginBottom: "5vh" }}>
               Menunggu Courier<hr style={{ border: "3px solid black" }}></hr>
             </h5>
             <Carousel responsive={this.responsive}>
-              {this.state.dataBarang.map((item, idx) => {
+              {this.props.data.map((item, idx) => {
                 return (
                   <div
                     className="ml-5 mr-5 pt-2 pb-2"
@@ -410,20 +360,15 @@ class KirimComp extends React.Component {
                       borderRadius: "10%",
                     }}
                   >
-                    {item.desc_status !== "Paket diproses" ||
-                    this.state.dataBarang.length === 0 ? (
+                    {item.idstatus === 1 ? (
                       <div>
-                        <h4>Tidak ada paket yang diproses</h4>
-                      </div>
-                    ) : (
-                      <>
                         <Card
                           style={{
                             border: "none",
                             boxShadow:
                               "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)",
                             borderRadius: "10%",
-                            backgroundImage: `url(${this.state.imgback})`,
+                            backgroundImage: `url(${testiback})`,
                           }}
                         >
                           <CardBody>
@@ -443,6 +388,35 @@ class KirimComp extends React.Component {
                             </CardText>
                           </CardBody>
                         </Card>
+                      </div>
+                    ) : (
+                      <>
+                        <Card
+                          style={{
+                            border: "none",
+                            boxShadow:
+                              "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)",
+                            borderRadius: "10%",
+                            backgroundImage: `url(${testiback1})`,
+                          }}
+                        >
+                          <CardBody>
+                            <CardTitle
+                              tag="h5"
+                              style={{ textAlign: "center" }}
+                            ></CardTitle>
+                            <CardSubtitle
+                              tag="h6"
+                              className="mb-2 text-muted "
+                              style={{ textAlign: "center" }}
+                            >
+                              Sudah Diproses
+                            </CardSubtitle>
+                            <CardText style={{ textAlign: "center" }}>
+                              {item.resi}
+                            </CardText>
+                          </CardBody>
+                        </Card>
                       </>
                     )}
                   </div>
@@ -450,11 +424,9 @@ class KirimComp extends React.Component {
               })}
             </Carousel>
             {/* RECEIPT DETAILS */}
-
             <h5 style={{ marginLeft: "2.5vw", marginTop: "5vh" }}>
               Receipt Details<hr style={{ border: "3px solid black" }}></hr>
             </h5>
-
             <div style={{ marginTop: "5vh" }}>
               <ComponentToPrint
                 ref={(el) => (this.componentRef = el)}
@@ -488,7 +460,6 @@ class KirimComp extends React.Component {
                 </>
               )}
             </div>
-
             {/* END RECEIPT DETAILS */}
           </Col>
           {/* END WAITING PICK */}
@@ -498,12 +469,15 @@ class KirimComp extends React.Component {
   }
 }
 
-const mapStateToProps = ({ usersReducer }) => {
+const mapStateToProps = ({ usersReducer, adminReducers }) => {
   return {
     idusers: usersReducer.idusers,
     idrole: usersReducer.idrole,
     username: usersReducer.username,
+    data: adminReducers.data,
+    kota: adminReducers.kota,
+    role: adminReducers.role,
   };
 };
 
-export default connect(mapStateToProps)(KirimComp);
+export default connect(mapStateToProps, { getData })(KirimComp);

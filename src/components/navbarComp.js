@@ -50,43 +50,88 @@ class NavbarComp extends React.Component {
   printLogin = () => {
     return (
       <div>
-        <Modal isOpen={this.state.modal} 
-        toggle={() => { this.setState({ modal: !this.state.modal }) }} >
+        <Modal
+          isOpen={this.state.modal}
+          toggle={() => {
+            this.setState({ modal: !this.state.modal });
+          }}
+        >
           {/* <ModalHeader>Modal title</ModalHeader> */}
           <ModalBody>
-            <Container style={{ background: "rgb(253,253,253)", backgroundImage: `url(${loginback})`,
-                backgroundPosition: "center", backgroundRepeat: "no-repeat",  backgroundSize: "cover" }} >
+            <Container
+              style={{
+                background: "rgb(253,253,253)",
+                backgroundImage: `url(${loginback})`,
+                backgroundPosition: "center",
+                backgroundRepeat: "no-repeat",
+                backgroundSize: "cover",
+              }}
+            >
               <Row>
                 <Col md="12">
                   <div className="d-flex justify-content-between align-items-center">
                     <h3>Masuk</h3>
-                    <a onClick={() => { this.setState({ modal: !this.state.modal }) }}
-                      style={{ cursor: "pointer", fontSize: "4vh" }} >
+                    <a
+                      onClick={() => {
+                        this.setState({ modal: !this.state.modal });
+                      }}
+                      style={{ cursor: "pointer", fontSize: "4vh" }}
+                    >
                       <i class="fas fa-times"></i>
                     </a>
                   </div>
                 </Col>
                 <Col md="12">
-                  <img src={logo1} width="50%" style={{ display: "block", marginLeft: "auto", marginRight: "auto", width: "50%" }} />
+                  <img
+                    src={logo1}
+                    width="50%"
+                    style={{
+                      display: "block",
+                      marginLeft: "auto",
+                      marginRight: "auto",
+                      width: "50%",
+                    }}
+                  />
                 </Col>
 
                 <Col md="12" className="mt-3 ">
                   <Form>
                     <FormGroup>
                       <Label for="exampleEmail">Email</Label>
-                      <Input type="email" placeholder="Masukkan Email" innerRef={(elemen) => (this.inputEmail = elemen)} />
+                      <Input
+                        type="email"
+                        placeholder="Masukkan Email"
+                        innerRef={(elemen) => (this.inputEmail = elemen)}
+                      />
                     </FormGroup>
                     <FormGroup>
                       <Label for="examplePassword">Password</Label>
-                      <Input type="password" placeholder="Masukkan Password" innerRef={(elemen) => (this.inputPassword = elemen)} />
+                      <Input
+                        type="password"
+                        placeholder="Masukkan Password"
+                        innerRef={(elemen) => (this.inputPassword = elemen)}
+                      />
                     </FormGroup>
                   </Form>
-                  <Button color="warning" className="btncustom" onClick={() => this.onBtLogin()}
-                    style={{ background: "rgb(254,104,84)", color: "white", width: "100%", borderRadius: "5%" }} >
+                  <Button
+                    color="warning"
+                    className="btncustom"
+                    onClick={() => this.onBtLogin()}
+                    style={{
+                      background: "rgb(254,104,84)",
+                      color: "white",
+                      width: "100%",
+                      borderRadius: "5%",
+                    }}
+                  >
                     Login
                   </Button>
-                  <Link className="d-flex pr-5" to="/register"
-                    style={{ textDecoration: "none" }} onClick={() => this.setState({ modal: !this.state.modal })} >
+                  <Link
+                    className="d-flex pr-5"
+                    to="/register"
+                    style={{ textDecoration: "none" }}
+                    onClick={() => this.setState({ modal: !this.state.modal })}
+                  >
                     <p style={{ textAlign: "right", marginTop: "1vh" }}>
                       Don't have an account ?
                     </p>
@@ -102,14 +147,14 @@ class NavbarComp extends React.Component {
 
   render() {
     return (
-      <Navbar expand="md">
+      <Navbar expand="md" className="mb-3 my-navbar navbar-light">
         {this.printLogin()}
-        <NavbarBrand href="/">
-          {/* <GifPlayer gif={logo} style={{ width: "20%" }} autoplay={true} /> */}
-          {/* <img src={logo} width="40%" alt="logo" /> */}
-        </NavbarBrand>
-        <NavbarToggler onClick={() => { this.setState({ isOpen: !this.state.isOpen }); }} />
-        <Collapse isOpen={this.state.isOpen} navbar>
+        {/* <NavbarToggler
+          onClick={() => {
+            this.setState({ isOpen: !this.state.isOpen });
+          }}
+        /> */}
+        {/* <Collapse isOpen={this.state.isOpen} navbar> */}
           <Nav className="m-auto" navbar>
             <NavItem>
               <NavLink href="#">
@@ -118,33 +163,26 @@ class NavbarComp extends React.Component {
                 </Link>
               </NavLink>
             </NavItem>
-            <NavItem>
-              <NavLink href="#">
-                <Link className="d-flex pr-5" to="/">
-                  <h5>ABOUT</h5>
-                </Link>
-              </NavLink>
-            </NavItem>
-            <UncontrolledDropdown nav inNavbar>
-              <DropdownToggle nav caret>
-                <Link className="d-flex pr-5" to="/">
-                  <h5>OPTION</h5>
-                </Link>
-              </DropdownToggle>
-              <DropdownMenu right>
-                <DropdownItem>Option 1</DropdownItem>
-                <DropdownItem>Option 2</DropdownItem>
-                <DropdownItem divider />
-                <DropdownItem>Reset</DropdownItem>
-              </DropdownMenu>
-            </UncontrolledDropdown>
+            {this.props.idrole === 3 && (
+              <NavItem>
+                <NavLink href="#">
+                  <Link className="d-flex pr-5" to="/status">
+                    <h5>STATUS</h5>
+                  </Link>
+                </NavLink>
+              </NavItem>
+            )}
           </Nav>
-        </Collapse>
+        {/* </Collapse> */}
         <NavItem style={{ listStyleType: "none" }}>
           {this.props.username ? (
             <UncontrolledDropdown>
-              <DropdownToggle DropdownToggle
-                nav caret style={{ color: "gray" }} >
+              <DropdownToggle
+                DropdownToggle
+                nav
+                caret
+                style={{ color: "gray" }}
+              >
                 Hello, {this.props.username}
               </DropdownToggle>
               <DropdownMenu right>
@@ -179,6 +217,7 @@ class NavbarComp extends React.Component {
                   onClick={() => {
                     this.setState({ modal: !this.state.modal });
                   }}
+                  style={{ color: "white" }}
                 >
                   LOGIN
                 </a>
@@ -186,7 +225,10 @@ class NavbarComp extends React.Component {
               &nbsp;
               <NavbarText>
                 <Link className="d-flex pr-5" to="/register">
-                  <a className="btncustom d-fllex justify-content-center text-decoration-none align-items-center">
+                  <a
+                    className="btncustom d-fllex justify-content-center text-decoration-none align-items-center"
+                    style={{ color: "white" }}
+                  >
                     SIGNUP
                   </a>
                 </Link>

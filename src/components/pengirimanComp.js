@@ -13,6 +13,7 @@ import ModalTrackPacket from './modalTrackPacket'
 import { connect } from 'react-redux'
 import axios from "axios";
 import ModalTarifComp from "./modalTarifComp";
+import { URL_API } from "../helper" 
 
 
 class PenngirimanComp extends React.Component {
@@ -44,7 +45,7 @@ class PenngirimanComp extends React.Component {
 
   getKota = () => {
     axios
-      .get(`http://localhost:2000/ongkir/getCity`)
+      .get(URL_API+ `/ongkir/getCity`)
       .then((res) => {
         console.log("KOTA", res.data)
         this.setState({ dataKota: res.data });
@@ -59,7 +60,7 @@ class PenngirimanComp extends React.Component {
     console.log("destination", this.kotaPenerimaIn.value);
     console.log("weight", this.beratBarangIn.value);
     axios
-      .post(`http://localhost:2000/ongkir/cost`, {
+      .post(URL_API + `/ongkir/cost`, {
         origin: this.kotaAsalIn.value,
         destination: this.kotaPenerimaIn.value,
         weight: this.beratBarangIn.value,

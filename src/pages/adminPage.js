@@ -29,17 +29,19 @@ class AdminPage extends React.Component {
           background:
             "linear-gradient(0deg, rgba(254,104,84,1) 0%, rgba(247,190,103,1) 100%)",
           width: "100%",
-          height: "95vh",
+          height: "93vh",
+          marginTop: "-5%",
         }}
       >
         <Row>
-          <Col md="12" style={{ textAlign: "center", paddingTop: "10vh" }}>
-            <img src={dropship} width="40%" />
+          <Col md="4"></Col>
+          <Col md="4" style={{ textAlign: "center", paddingTop: "10vh" }}>
+            <img src={dropship} width="100%" />
             <h3>Welcome Back {this.props.nama}!</h3>
             <Container>
               <Row>
                 <Col md="3"></Col>
-                <Col md="6">
+                <Col md="12">
                   <p>
                     Input data pengiriman barang oleh admin, jangan lupa
                     perhatikan value form agar tidak terjadi kesalahan saat
@@ -62,6 +64,7 @@ class AdminPage extends React.Component {
               <Button color="warning">Input Pengiriman</Button>
             </Link>
           </Col>
+          <Col md="4"></Col>
         </Row>
       </Container>
     );

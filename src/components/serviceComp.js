@@ -12,7 +12,7 @@ class ServiceComp extends React.Component {
     return (
       <Container
         fluid
-        className="mt-5 p-0"
+        className="mt-5 p-3"
         style={{
           backgroundImage: `url(${background})`,
           backgroundPosition: "center",

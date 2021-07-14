@@ -23,15 +23,17 @@ import testiback1 from "../../assets/img/testiback1.gif";
 import Carousel from "react-multi-carousel";
 import axios from "axios";
 import { URL_API } from "../../helper";
+import { connect } from "react-redux";
+import { getCourier } from "../../actions" 
 
 class RegsitCourComp extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       alert: false,
-      message: '',
-      alertType: '',
-      kurir: []
+      message: "",
+      alertType: "",
+      kurir: [],
     };
   }
   responsive = {
@@ -55,98 +57,191 @@ class RegsitCourComp extends React.Component {
   };
 
   componentDidMount() {
-    this.getKurir()
+    this.getKurir();
   }
 
   onBtRegisCourier = () => {
-    let username = this.regisKurirUname.value
-    let nama = this.regisKurirName.value
-    let email = this.regisKurirEmail.value
-    let password = this.regisKurirPassword.value
-    let telp = this.regisKurirTelp.value
-    let idrole = 2
-    if (username == '' || nama == '' || email == '' || password == '' || telp == '') {
-      this.setState({ alert: !this.state.alert, message: "Lengkapi semua form!", alertType: 'danger' })
-      setTimeout(() => this.setState({ alert: !this.state.alert, message: '', alertType: '', }), 3000)
+    let username = this.regisKurirUname.value;
+    let nama = this.regisKurirName.value;
+    let email = this.regisKurirEmail.value;
+    let password = this.regisKurirPassword.value;
+    let telp = this.regisKurirTelp.value;
+    let idrole = 2;
+    if (
+      username == "" ||
+      nama == "" ||
+      email == "" ||
+      password == "" ||
+      telp == ""
+    ) {
+      this.setState({
+        alert: !this.state.alert,
+        message: "Lengkapi semua form!",
+        alertType: "danger",
+      });
+      setTimeout(
+        () =>
+          this.setState({
+            alert: !this.state.alert,
+            message: "",
+            alertType: "",
+          }),
+        3000
+      );
     } else {
-      if (email.includes('@')) {
-        axios.get(URL_API + `/users/get?email=${email}`)
-          .then(res => {
+      if (email.includes("@")) {
+        axios
+          .get(URL_API + `/users/get?email=${email}`)
+          .then((res) => {
             if (res.data.length > 0) {
-              this.setState({ alert: !this.state.alert, message: "Email sudah terdaftar", alertType: 'warning' })
-              setTimeout(() => this.setState({ alert: !this.state.alert, message: '', alertType: '' }), 3000)
-              this.regisKurirUname.value = null
-              this.regisKurirName.value = null
-              this.regisKurirEmail.value = null
-              this.regisKurirPassword.value = null
-              this.regisKurirTelp.value = null
+              this.setState({
+                alert: !this.state.alert,
+                message: "Email sudah terdaftar",
+                alertType: "warning",
+              });
+              setTimeout(
+                () =>
+                  this.setState({
+                    alert: !this.state.alert,
+                    message: "",
+                    alertType: "",
+                  }),
+                3000
+              );
+              this.regisKurirUname.value = null;
+              this.regisKurirName.value = null;
+              this.regisKurirEmail.value = null;
+              this.regisKurirPassword.value = null;
+              this.regisKurirTelp.value = null;
             } else {
-              axios.post(URL_API + `/users/addKurir`, { username, nama, email, password, telp, idrole })
-                .then(res => {
-                  this.setState({ alert: !this.state.alert, message: "Registrasi akun Kurir sukses!", alertType: 'success' })
-                  setTimeout(() => this.setState({ alert: !this.state.alert, message: '', alertType: '', }), 3000)
-                  console.log(res.data)
-                  this.regisKurirUname.value = null
-                  this.regisKurirName.value = null
-                  this.regisKurirEmail.value = null
-                  this.regisKurirPassword.value = null
-                  this.regisKurirTelp.value = null
-                }).catch(err => console.log("Error Register", err))
+              axios
+                .post(URL_API + `/users/addKurir`, {
+                  username,
+                  nama,
+                  email,
+                  password,
+                  telp,
+                  idrole,
+                })
+                .then((res) => {
+                  this.setState({
+                    alert: !this.state.alert,
+                    message: "Registrasi akun Kurir sukses!",
+                    alertType: "success",
+                  });
+                  setTimeout(
+                    () =>
+                      this.setState({
+                        alert: !this.state.alert,
+                        message: "",
+                        alertType: "",
+                      }),
+                    3000
+                  );
+                  this.getKurir()
+                  console.log(res.data);
+                  this.regisKurirUname.value = null;
+                  this.regisKurirName.value = null;
+                  this.regisKurirEmail.value = null;
+                  this.regisKurirPassword.value = null;
+                  this.regisKurirTelp.value = null;
+                })
+                .catch((err) => console.log("Error Register", err));
             }
-          }).catch(error => console.log(error))
+          })
+          .catch((error) => console.log(error));
       } else {
-        this.setState({ alert: !this.state.alert, message: 'Email Anda salah', alertType: 'warning' })
-        setTimeout(() => this.setState({ alert: !this.state.alert, message: '', alertType: '' }), 3000)
-        this.regisKurirUname.value = null
-        this.regisKurirName.value = null
-        this.regisKurirEmail.value = null
-        this.regisKurirPassword.value = null
-        this.regisKurirTelp.value = null
+        this.setState({
+          alert: !this.state.alert,
+          message: "Email Anda salah",
+          alertType: "warning",
+        });
+        setTimeout(
+          () =>
+            this.setState({
+              alert: !this.state.alert,
+              message: "",
+              alertType: "",
+            }),
+          3000
+        );
+        this.regisKurirUname.value = null;
+        this.regisKurirName.value = null;
+        this.regisKurirEmail.value = null;
+        this.regisKurirPassword.value = null;
+        this.regisKurirTelp.value = null;
       }
     }
-  }
+  };
 
   getKurir = () => {
-    axios.get(URL_API + `/users/get?idrole=2`)
-      .then(res => {
-        console.log("Data Kurir", res.data)
-        this.setState({ kurir: res.data })
-      }).catch(err => console.log("data kurir error", err))
-  }
+    axios
+      .get(URL_API + `/users/get?idrole=2`)
+      .then((res) => {
+        console.log("Data Kurir", res.data);
+        this.setState({ kurir: res.data });
+      })
+      .catch((err) => console.log("data kurir error", err));
+  };
 
   printDataKurir = () => {
     return this.state.kurir.map((item, index) => {
-      return <div className="ml-5 mr-5 pt-2 pb-2" style={{ borderRadius: "10%" }}>
-        <Card
-          style={{
-            border: "none", boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)",
-            borderRadius: "10%", backgroundImage: `url(${testiback})`
-          }} >
-          <img top width="30%" src={user} alt="Card image cap"
-            className="m-auto rounded-circle mt-3" style={{ boxShadow: "3px 3px 3px 3px #ccc" }} />
-          <CardBody>
-            <CardTitle tag="h5" style={{ textAlign: "center" }}>
-              {item.nama}
-            </CardTitle>
-            <CardSubtitle tag="h6" className="mb-2 text-muted " style={{ textAlign: "center" }} >
-              courier
-            </CardSubtitle>
-            <CardText style={{ textAlign: "center" }}>
-              {item.telp}
-            </CardText>
-          </CardBody>
-        </Card>
-      </div>
-    })
-  }
+      return (
+        <div className="ml-5 mr-5 pt-2 pb-2" style={{ borderRadius: "10%" }}>
+          <Card
+            style={{
+              border: "none",
+              boxShadow:
+                "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)",
+              borderRadius: "10%",
+              backgroundImage: `url(${testiback})`,
+            }}
+          >
+            <img
+              top
+              width="30%"
+              src={user}
+              alt="Card image cap"
+              className="m-auto rounded-circle mt-3"
+              style={{ boxShadow: "3px 3px 3px 3px #ccc" }}
+            />
+            <CardBody>
+              <CardTitle tag="h5" style={{ textAlign: "center" }}>
+                {item.nama}
+              </CardTitle>
+              <CardSubtitle
+                tag="h6"
+                className="mb-2 text-muted "
+                style={{ textAlign: "center" }}
+              >
+                courier
+              </CardSubtitle>
+              <CardText style={{ textAlign: "center" }}>{item.telp}</CardText>
+            </CardBody>
+          </Card>
+        </div>
+      );
+    });
+  };
 
   render() {
+    console.log("kurir", this.props.kurir )
+
     return (
-      <Container fluid className="pt-5"
-        style={{ background: "linear-gradient(0deg, rgba(254,104,84,1) 0%, rgba(247,190,103,1) 100%)", width: "100%" }}>
+      <Container
+        fluid
+        className="pt-5"
+        style={{
+          background:
+            "linear-gradient(0deg, rgba(254,104,84,1) 0%, rgba(247,190,103,1) 100%)",
+          width: "100%",
+          marginTop: "-4.5%",
+          paddingBottom: "19%",
+        }}
+      >
         <Row>
           {/* INPUT FORM COURIER */}
-          <Col md="6" className="pl-5">
+          <Col md="6" className="pl-5 pt-5 pb-5">
             <h5>Registrasi Courier</h5>
             <Alert isOpen={this.state.alert} color={this.state.alertType}>
               {this.state.message}
@@ -154,32 +249,56 @@ class RegsitCourComp extends React.Component {
             <Form style={{ marginTop: "4vh" }}>
               <FormGroup>
                 <Label for="username">Username</Label>
-                <Input type="text" placeholder="Masukkan Username" innerRef={e => this.regisKurirUname = e} />
+                <Input
+                  type="text"
+                  placeholder="Masukkan Username"
+                  innerRef={(e) => (this.regisKurirUname = e)}
+                />
               </FormGroup>
               <FormGroup>
                 <Label for="username">Name</Label>
-                <Input type="text" placeholder="Masukkan Nama" innerRef={e => this.regisKurirName = e} />
+                <Input
+                  type="text"
+                  placeholder="Masukkan Nama"
+                  innerRef={(e) => (this.regisKurirName = e)}
+                />
               </FormGroup>
               <FormGroup>
                 <Label for="exampleEmail">Email</Label>
-                <Input type="email" placeholder="Masukkan Email" innerRef={e => this.regisKurirEmail = e} />
+                <Input
+                  type="email"
+                  placeholder="Masukkan Email"
+                  innerRef={(e) => (this.regisKurirEmail = e)}
+                />
               </FormGroup>
               <FormGroup>
                 <Label for="username">Telephone</Label>
-                <Input type="number" placeholder="Masukkan Nomor Telephone" innerRef={e => this.regisKurirTelp = e} />
+                <Input
+                  type="number"
+                  placeholder="Masukkan Nomor Telephone"
+                  innerRef={(e) => (this.regisKurirTelp = e)}
+                />
               </FormGroup>
               <FormGroup>
                 <Label for="examplePassword">Password</Label>
-                <Input type="password" placeholder="Masukkan Password" innerRef={e => this.regisKurirPassword = e} />
+                <Input
+                  type="password"
+                  placeholder="Masukkan Password"
+                  innerRef={(e) => (this.regisKurirPassword = e)}
+                />
               </FormGroup>
-              <Button color="warning" style={{ color: "white" }} onClick={this.onBtRegisCourier} >
+              <Button
+                color="warning"
+                style={{ color: "white" }}
+                onClick={this.onBtRegisCourier}
+              >
                 Signup
               </Button>
             </Form>
           </Col>
 
           {/* LIST COURIER */}
-          <Col md="6">
+          <Col md="6 pt-5">
             <h5 style={{ marginLeft: "3vw", marginBottom: "5vh" }}>
               List Courier
             </h5>
@@ -192,5 +311,7 @@ class RegsitCourComp extends React.Component {
     );
   }
 }
+
+
 
 export default RegsitCourComp;

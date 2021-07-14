@@ -5,6 +5,8 @@ import NavbarComp from "./components/navbarComp";
 import NavbarAdminComp from "./components/admin/navbarAdminComp";
 import RegistCourComp from "./components/admin/registCourComp";
 import NavbarCourComp from "./components/courier/navbarCourComp";
+import StatusComp from "./components/users/statusComp";
+import SendComp from "./components/courier/sendComp";
 import KirimComp from "./components/admin/kirimComp";
 import LandingPage from "./pages/landingPage";
 import CourierPage from "./pages/courierPage";
@@ -15,9 +17,17 @@ import FooterComp from "./components/footerComp";
 import "./assets/css/style.css";
 import { URL_API } from "./helper";
 import axios from "axios";
-import { keepLogin, getDataPacketAction } from "./actions";
+import {
+  keepLogin,
+  getDataPacketAction,
+  getData,
+  getKota,
+  getPengiriman,
+  getRoleUsers,
+  getStatus,
+} from "./actions";
 import { connect } from "react-redux";
-import HistoryComp from "./components/admin/historyComp";
+import historyAdmin from "./components/admin/historyAdmin";
 
 class App extends React.Component {
   constructor(props) {
@@ -29,7 +39,12 @@ class App extends React.Component {
 
   componentDidMount() {
     this.reLogin();
-    this.props.getDataPacketAction()
+    this.props.getDataPacketAction();
+    this.props.getData();
+    this.props.getKota();
+    this.props.getRoleUsers();
+    this.props.getPengiriman();
+    this.props.getStatus();
   }
 
   reLogin = () => {
@@ -61,7 +76,7 @@ class App extends React.Component {
               <Route path="/" component={AdminPage} exact />
               <Route path="/courier" component={RegistCourComp} />
               <Route path="/kirim" component={KirimComp} />
-              <Route path="/history" component={HistoryComp} />
+              <Route path="/history" component={historyAdmin} />
             </Switch>
             <FooterComp />
           </>
@@ -69,7 +84,17 @@ class App extends React.Component {
           <>
             <NavbarCourComp />
             <Switch>
-              <Route path="/" component={CourierPage} />
+              <Route path="/" component={CourierPage} exact />
+              <Route path="/input" component={SendComp} />
+            </Switch>
+            <FooterComp />
+          </>
+        ) : this.props.idrole === 3 ? (
+          <>
+            <NavbarComp />
+            <Switch>
+              <Route path="/" component={LandingPage} exact />
+              <Route path="/status" component={StatusComp} exact />
             </Switch>
             <FooterComp />
           </>
@@ -95,4 +120,12 @@ const mapStateToProps = ({ usersReducer }) => {
   };
 };
 
-export default connect(mapStateToProps, { keepLogin, getDataPacketAction })(App);
+export default connect(mapStateToProps, {
+  keepLogin,
+  getDataPacketAction,
+  getData,
+  getKota,
+  getRoleUsers,
+  getPengiriman,
+  getStatus,
+})(App);
