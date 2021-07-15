@@ -3,7 +3,7 @@
 
 **Managed by : Abdi Alghifara Felinanda(Purwadhika Mentor)**
 
-Project ini merupakan hasil implementasi dari semua materi yang telah dipelajari oleh student untuk membuat sebuah aplikasi dibidang ekspedisi pengiriman barang. Untuk backend repository berada di url : **https://github.com/Abdi-01/purwa-express-api.git**
+Project ini merupakan hasil implementasi dari semua materi yang telah dipelajari oleh student untuk membuat sebuah aplikasi dibidang ekspedisi pengiriman barang. Untuk backend repository berada di url : **https://github.com/slthnsf/purwa-express-api.git**
 
 ## Web Preview
 
